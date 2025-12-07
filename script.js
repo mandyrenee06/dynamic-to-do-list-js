@@ -41,27 +41,30 @@ document.addEventListener('DOMContentLoaded', () => {
    * @param {string} [taskTextParam] - Optional task text to add (used when loading from storage)
    * @param {boolean} [save=true] - Whether to save to Local Storage (pass false when loading initial tasks)
    */
-  function addTask(taskTextParam, save = true) {
-    const rawText = (typeof taskTextParam === 'string') ? taskTextParam : taskInput.value;
-    const taskText = rawText.trim();
+  function addTask() {
+    const taskText = taskInput.value.trim();
 
-    if (taskText === '') {
-      alert('Please enter a task.');
-      return;
+    if (taskText === "") {
+        alert("Please enter a task");
+        return;
     }
 
-    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+    const li = document.createElement('li');
+    li.textContent = taskText;
 
-    const taskObj = { id, text: taskText };
-    tasks.push(taskObj);
-    if (save) saveTasksToLocalStorage();
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = "Remove";
+    removeBtn.className = "remove-btn";
 
-    createTaskElement(taskObj);
+    removeBtn.onclick = function () {
+        taskList.removeChild(li);
+    };
 
-    if (typeof taskTextParam !== 'string') {
-      taskInput.value = '';
-    }
-  }
+    li.appendChild(removeBtn);
+    taskList.appendChild(li);
+
+    taskInput.value = "";
+}
 
   function loadTasks() {
     const stored = JSON.parse(localStorage.getItem('tasks') || '[]');
