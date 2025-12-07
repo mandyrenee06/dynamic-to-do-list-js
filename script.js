@@ -61,10 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     li.appendChild(removeBtn);
+
     taskList.appendChild(li);
 
     taskInput.value = "";
+  }
 }
+
 
   function loadTasks() {
     const stored = JSON.parse(localStorage.getItem('tasks') || '[]');
